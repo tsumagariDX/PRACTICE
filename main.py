@@ -26,8 +26,29 @@ class ProductList():
                 self.products.remove(product)
                 return True
         return False
+    
+    def save_to_file(self):
+        p = "products.txt"
+        with open(p, "w", encoding="utf-8") as f:
+            for product in self.products:
+                f.write(f'{product["name"]},{product["price"]}\n')
+
+    def load_from_file(self):
+        p = "products.txt"
+
+        with open(p, "r", encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                parts = line.split(",")
+                name = parts[0]
+                price = int(parts[1])
+                product = {"name": name, "price": price}
+                self.products.append(product)
+
 def main():
     app = ProductList()
+    app.load_from_file()
+
     while True:
         print("===商品管理アプリ===")
         print("1: 商品を追加")
@@ -35,6 +56,7 @@ def main():
         print("3: 商品を探す")
         print("4: 終了")
         print("5: 削除")
+        print("6: 保存")
         choice = input()
 
         if choice == "4": 
@@ -61,11 +83,14 @@ def main():
 
         elif choice == "5":
             name = input("削除したい商品名を入力してください: ")
-            product = app.remove_product(name)
+            result = app.remove_product(name)
 
-            if product:
+            if result:
                 print("削除しました")
             else:
                 print("見つかりませんでした")
 
+        elif choice == "6":
+            app.save_to_file()
+            print("保存しました")
         
