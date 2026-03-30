@@ -74,3 +74,29 @@ def show_report(item_sales, category_sales, skip_count):
     print("スキップ件数: ")
     print()
     print(f"{skip_count} 件")
+
+def save_report(output_path, item_sales, category_sales, skip_count):
+    with open(output_path, "w", encoding="utf-8") as f:
+        f.write("商品別売上: \n")
+        for item in item_sales:
+            f.write(f"{item} : {item_sales[item]}\n")
+        f.write("カテゴリ別売上: \n")
+        for category in category_sales:
+            f.write(f"{category} : {category_sales[category]}\n")
+
+        f.write("スキップ件数: \n")
+        f.write(f"{skip_count} 件\n")
+
+def main():
+    input_path = "sales.csv"
+    output_path = "report.txt"
+
+    records, skip_count = read_sales_csv(input_path)
+    item_sales = calc_item_sales(records)
+    category_sales = calc_category_sales(records)
+    show_report(item_sales, category_sales, skip_count)
+    save_report(output_path, item_sales, category_sales, skip_count)
+
+if __name__ == "__main__":
+    main()
+
