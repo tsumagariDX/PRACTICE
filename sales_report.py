@@ -32,7 +32,7 @@ def read_sales_csv(input_path):
 
     return records, skip_count
 
-def  calc_item_sales(records):
+def calc_item_sales(records):
     item_sales = {}
 
     for record in records:
@@ -59,3 +59,18 @@ def calc_category_sales(records):
         category_sales[category] += amount
     
     return category_sales
+
+def show_report(item_sales, category_sales, skip_count):
+    print("商品別売上: ")
+    print()
+    for item in item_sales:
+        print(f"{item["item"]} : {item["amount"]}")
+
+    print("カテゴリ別売上: ")
+    print()
+    for category in category_sales:
+        print(f"{category["category"]} : {category["amount"]}")
+
+    print("スキップ件数: ")
+    print()
+    print(f"{skip_count} 件")
