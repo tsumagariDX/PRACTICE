@@ -87,6 +87,15 @@ def save_report(output_path, item_sales, category_sales, skip_count):
         f.write("スキップ件数: \n")
         f.write(f"{skip_count} 件\n")
 
+def get_top_item(item_sales):
+    max_price = 0
+    max_price_item = []
+    for item in item_sales:
+        if item[item] > max_price:
+            max_price = item[item]
+            max_price_item = item["item"]
+    return  max_price_item
+
 def main():
     input_path = "sales.csv"
     output_path = "report.txt"
@@ -99,4 +108,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
