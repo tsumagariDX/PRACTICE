@@ -108,11 +108,9 @@ def get_top_item(item_sales):
             max_price_item = item
     return  max_price_item
 
-def sort_top_item(item_sales):
-    sorted_top_item= {}
-    for item in item_sales:
-        sorted_top_item = sorted(item_sales.item(), key=lambda x: x[1], reverse=True)
-    return sorted_top_item
+def sort_item_sales(item_sales):
+    sorted_item = sorted(item_sales.items(), key=lambda x: x[1], reverse=True)
+    return sorted_item
 
 def get_top_category(category_sales):
     max_sales = 0
