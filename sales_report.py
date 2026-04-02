@@ -60,16 +60,16 @@ def calc_category_sales(records):
     
     return category_sales
 
-def show_report(item_sales, category_sales, top_item, top_category, skip_count):
+def show_report(sorted_item, sorted_category, top_item, top_category, skip_count):
     print("商品別売上: ")
     print()
-    for item in item_sales:
-        print(f"{item} : {item_sales[item]}")
+    for item, sales in sorted_item:
+        print(f"{item} : {sales}")
 
     print("カテゴリ別売上: ")
     print()
-    for category in category_sales:
-        print(f"{category} : {category_sales[category]}")
+    for category, sales in sorted_category:
+        print(f"{category} : {sales}")
 
     print("売上トップ商品: ")
     print(top_item)
@@ -83,21 +83,21 @@ def show_report(item_sales, category_sales, top_item, top_category, skip_count):
 
 def save_report(output_path, item_sales, category_sales, top_item, top_category, skip_count):
     with open(output_path, "w", encoding="utf-8") as f:
-        f.write("商品別売上: \n")
+        f.write("商品別売上: ")
         for item in item_sales:
             f.write(f"{item} : {item_sales[item]}\n")
-        f.write("カテゴリ別売上: \n")
+        f.write("カテゴリ別売上: ")
         for category in category_sales:
             f.write(f"{category} : {category_sales[category]}\n")
 
-        f.write("売上トップ商品: \n")
-        f.write(f"{top_item}\n")
+        f.write("売上トップ商品: ")
+        f.write(f"{top_item}")
 
-        f.write("売上トップカテゴリ: \n")
-        f.write(f"{top_category}\n")
+        f.write("売上トップカテゴリ: ")
+        f.write(f"{top_category}")
 
-        f.write("スキップ件数: \n")
-        f.write(f"{skip_count} 件\n")
+        f.write("スキップ件数: ")
+        f.write(f"{skip_count} 件")
 
 def get_top_item(item_sales):
     max_price = 0
@@ -111,6 +111,10 @@ def get_top_item(item_sales):
 def sort_item_sales(item_sales):
     sorted_item = sorted(item_sales.items(), key=lambda x: x[1], reverse=True)
     return sorted_item
+
+def sort_category_sales(category_sales):
+    sorted_category = sorted(category_sales.items(), key=lambda x: x[1], reverse=True)
+    return sorted_category
 
 def get_top_category(category_sales):
     max_sales = 0
