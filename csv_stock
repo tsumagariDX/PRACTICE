@@ -1,0 +1,31 @@
+import csv
+
+def read_stock_csv(input_path):
+    records = {}
+    skip_count = 0
+
+    with open (input_path, "r", encoding="utf-8", newline="") as f:
+        reader = csv.reader(f)
+        next(reader)
+    
+        for row in reader:
+            if len(row) < 4:
+                skip_count += 1
+                continue
+            try:
+                quantity = int(row[2])
+            except ValueError:
+                skip_count += 1
+                continue
+
+            if row[1] != "in" or "out":
+                skip_count += 1
+                continue
+
+        records = {
+            "item" : row[0],
+            "move" : row[1],
+            "quantity" : quantity
+
+
+        }
