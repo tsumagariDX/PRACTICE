@@ -1,31 +1,41 @@
-import csv
+from pathlib import Path
 
-def read_stock_csv(input_path):
-    records = {}
-    skip_count = 0
+def count_extensions(files):
+    ext_count = {}
+    for file in files:
+        ext = file.suffix.lower()
+        if ext == "":
+            ext = "拡張子なし"
+        
+        if ext not in ext_count:
+            ext_count[ext] = 0
+        ext_count[ext] += 1
+        
+    return ext_count
 
-    with open (input_path, "r", encoding="utf-8", newline="") as f:
-        reader = csv.reader(f)
-        next(reader)
-    
-        for row in reader:
-            if len(row) < 4:
-                skip_count += 1
-                continue
-            try:
-                quantity = int(row[2])
-            except ValueError:
-                skip_count += 1
-                continue
+def sort_extensions(ext_count):
+    sorted_data = sorted(ext_count.items(), key=lambda x: x[1], reverse=True)
+    return sorted_data
 
-            if row[1] != "in" or "out":
-                skip_count += 1
-                continue
+def get_files(folder_path):
+    files = []
+    folder = Path(folder_path)
+    for p in folder.iterdir():
+        if p.is_file():
+            files.append(p)
+    return files
 
-        records = {
-            "item" : row[0],
-            "move" : row[1],
-            "quantity" : quantity
+def show_report(sorted_data):
+    print("拡張子ごとの件数:")
+    for ext, count in sorted_data:
+        print(f"{ext}: {count}")
 
+def main():
+    folder_path = "input_files"
+    files = get_files(folder_path)
+    ext_count = count_extensions(files)
+    sorted_data = sort_extensions(ext_count)
+    show_report(sorted_data)
 
-        }
+if __name__ == "__main__":
+    main()
