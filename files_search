@@ -1,0 +1,37 @@
+from pathlib import Path
+
+def get_files(folder_path):
+    files = []
+    folder = Path(folder_path)
+    for p in folder.iterdir():
+        if p.is_file():
+            files.append(p)
+    return files
+
+def search_files(files, keyword):
+    found_list = []
+    for file in files:
+        if keyword in file.name.lower():
+            found_list.append(file)
+    return found_list
+
+def show_search_result(found_files):
+    if not found_files:
+        print("見つかりません")
+    else:
+        for file in found_files:
+            print(file.name)
+
+def main():
+    folder_path = input("フォルダパスを入力してください： ").strip()
+    folder = Path(folder_path)
+    if not folder.exists() or not folder.is_dir():
+        print("フォルダが見つかりません")
+        return
+    files = get_files(folder)
+    keyword = input("検索キーワードを入力してください： ").strip().lower()
+    found_files = search_files(files, keyword)
+    show_search_result(found_files)
+
+if __name__ == "__main__":
+    main()
