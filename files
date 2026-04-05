@@ -49,13 +49,24 @@ def show_group_report(group_files,sorted_data):
         for name in group_files[ext]:
             print(f" - {name}")
 
+def organize_files(files, folder_path):
+    folder = Path(folder_path)
+    for file in files:
+        ext = file.suffix.lower()
+        if ext == "":
+            folder_name = "no_extension"
+        else:
+            folder_name = ext[1:]
+        target_folder = folder / folder_name
+        target_folder.mkdir(exist_ok=True)
+        dest_path = target_folder / file.name
+        file.rename(dest_path)
+
 def main():
     folder_path = "input_files"
     files = get_files(folder_path)
-    ext_count = count_extensions(files)
-    sorted_data = sort_extensions(ext_count)
-    group_files = group_files_by_extension(files)
-    show_group_report(group_files,sorted_data)
+    organize_files(files, folder_path)
+    print("整理が完了しました")
 
 if __name__ == "__main__":
     main()
