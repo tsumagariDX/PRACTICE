@@ -25,17 +25,37 @@ def get_files(folder_path):
             files.append(p)
     return files
 
+def group_files_by_extension(files):
+    group_files = {}
+    for file in files:
+        ext = file.suffix.lower()
+        if ext == "":
+            ext = "拡張子なし"
+
+        if ext not in group_files:
+            group_files[ext] = []
+
+        group_files[ext].append(file.name)
+    return group_files
+
 def show_report(sorted_data):
     print("拡張子ごとの件数:")
     for ext, count in sorted_data:
         print(f"{ext}: {count}")
+
+def show_group_report(group_files,sorted_data):
+    for ext, count in sorted_data:
+        print(f"{ext}: {count}")
+        for name in group_files[ext]:
+            print(f" - {name}")
 
 def main():
     folder_path = "input_files"
     files = get_files(folder_path)
     ext_count = count_extensions(files)
     sorted_data = sort_extensions(ext_count)
-    show_report(sorted_data)
+    group_files = group_files_by_extension(files)
+    show_group_report(group_files,sorted_data)
 
 if __name__ == "__main__":
     main()
