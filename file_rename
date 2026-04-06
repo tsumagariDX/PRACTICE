@@ -1,0 +1,4 @@
+from pathlib import Path
+
+def make_new_name(file, prefix):
+    return prefix + file.name
