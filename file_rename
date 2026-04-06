@@ -1,4 +1,37 @@
 from pathlib import Path
 
+def get_files(folder_path):
+    files = []
+    folder = Path(folder_path)
+    for p in folder.iterdir():
+        if p.is_file():
+            files.append(p)
+    return files
+
 def make_new_name(file, prefix):
     return prefix + file.name
+
+def rename_file(file, new_name):
+    new_path = file.parent / new_name
+    file.rename(new_path)
+
+def rename_files(files, prefix):
+    for file in files:
+        new_name = make_new_name(file, prefix)
+        rename_file(file, new_name)
+
+def main():
+    folder_path = input("フォルダパスを入力してください").strip()
+    prefix = input("prefixを入力してください").strip()
+
+    folder = Path(folder_path)
+    if not folder.exists() or not folder.is_dir():
+        print("フォルダが見つかりません")
+        return
+    
+    files = get_files(folder_path)
+    rename_files(files, prefix)
+    print("リネーム完了")
+
+if __name__ == "__main__":
+    main()
