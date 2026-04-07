@@ -1,0 +1,43 @@
+from pathlib import Path
+
+def get_files(folder_path):
+    files = []
+    folder = Path(folder_path)
+    for p in folder.iterdir():
+        if p.is_file():
+            files.append(p)
+    return files
+
+def count_file_names(files):
+    name_count = {}
+    for file in files:
+        name = file.name
+        if name not in name_count:
+            name_count[name] = 0
+        name_count[name] += 1
+    return name_count
+
+def get_duplicate_names(name_count):
+    duplicate_names = []
+    for name, count in name_count.items():
+        if count >= 2:
+            duplicate_names.append(name)
+    return duplicate_names
+
+def show_duplicate_names(duplicate_names):
+    if not duplicate_names:
+        print("重複ファイル名はありません")
+        return
+    
+    for name in duplicate_names:
+        print(name)
+
+def main():
+    folder_path = input("フォルダパスを入力してください").strip()
+    files = get_files(folder_path)
+    name_count = count_file_names(files)
+    duplicate_names = get_duplicate_names(name_count)
+    show_duplicate_names(duplicate_names)
+
+if __name__ == "__main__":
+    main()
