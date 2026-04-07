@@ -34,6 +34,10 @@ def show_duplicate_names(duplicate_names):
 
 def main():
     folder_path = input("フォルダパスを入力してください").strip()
+    folder = Path(folder_path)
+    if not folder.exists() or not folder.is_dir():
+        print("フォルダが見つかりません")
+        return
     files = get_files(folder_path)
     name_count = count_file_names(files)
     duplicate_names = get_duplicate_names(name_count)
