@@ -1,0 +1,32 @@
+import csv
+
+def read_stock_csv(input_path):
+    stock = {}
+    p = input_path
+    with open(p, "r", encoding="utf-8", newline="")as f:
+        reader = csv.reader(f)
+        next(reader)
+        for row in reader:
+            name = row[0]
+            quantity = int(row[1])
+            stock[name] = quantity
+    return stock
+
+def find_stock(stock_data, name):
+    return stock_data.get(name)
+
+def show_stock(result, name):
+    if result is None:
+        print("見つかりません")
+    else:
+        print(f"{name}:{result}")
+
+def main():
+    input_path = input("CSVファイルパスを入力してください").strip()
+    stock_data = read_stock_csv(input_path)
+    name = input("検索したい商品名を入力してください").strip()
+    result = find_stock(stock_data, name)
+    show_stock(result, name)
+
+if __name__ == "__main__":
+    main()
