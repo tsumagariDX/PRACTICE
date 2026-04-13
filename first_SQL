@@ -17,7 +17,34 @@ def create_table(conn):
 def insert_stock(conn, name, stock):
     cursor = conn.cursor()
     cursor.execute(
-        "INSERT INTO stocks (name, stock) VALUE (?, ?)",
+        "INSERT INTO stocks (name, stock) VALUES (?, ?)",
         (name, stock)
     )
     conn.commit()
+
+def get_all_stocks(conn):
+    cursor = conn.cursor()
+    cursor.execute("SELECT name, stock FROM stocks")
+    rows = cursor.fetchall()
+    return rows
+
+def show_all_stocks(rows):
+    if not rows:
+        print("データがありません")
+    else:
+        for name, stock in rows:
+            print(f"{name}:{stock}")
+
+def find_stock_by_name(conn, name):
+    cursor = conn.cursor()
+    cursor.execute("SELECT name, stock FROM stocks WHERE name = ?", (name,))
+    found_stock = cursor.fetchone()
+    return found_stock
+
+def show_found_stocks(row):
+    if row is None:
+        print("データがありません")
+    else:
+        name, stock = row
+        print(f"{name}:{stock}")
+
