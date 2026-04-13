@@ -1,0 +1,23 @@
+import sqlite3
+
+def connect_db(db_path):
+    conn = sqlite3.connect(db_path)
+    return conn
+    
+def create_table(conn):
+    cursor = conn.cursor()
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS stocks(
+        name TEXT,
+        stock INTEGER
+    )
+    """)
+    conn.commit()
+
+def insert_stock(conn, name, stock):
+    cursor = conn.cursor()
+    cursor.execute(
+        "INSERT INTO stocks (name, stock) VALUE (?, ?)",
+        (name, stock)
+    )
+    conn.commit()
