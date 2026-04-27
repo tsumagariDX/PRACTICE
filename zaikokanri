@@ -1,0 +1,41 @@
+class StockApp:
+    def __init__(self):
+        self.products = []
+    
+    def add_product(self, name, stock):
+        product = {"name":name, "stock":stock}
+        self.products.append(product)
+    
+    def show_products(self):
+        if self.products == []:
+            print("商品がありません")
+            return
+        
+        for product in self.products:
+            print(f"name:{product['name']}\nstock:{product['stock']}")
+    
+    def find_product(self, name):
+        for product in self.products:
+            if product["name"] == name:
+                print("次の商品が見つかりました")
+                print(f"name:{product['name']}\nstock:{product['stock']}")
+                return
+        print("商品が見つかりませんでした")
+
+    def update_stock(self, name, new_stock):
+        for product in self.products:
+            if product["name"] == name:
+                product["stock"] = new_stock
+                print("次の商品の数量を変更しました")
+                print(f"name:{product['name']}\nstock:{product['stock']}")
+                return
+        print("商品が見つかりませんでした")
+
+    def delete_product(self, name):
+        for product in self.products:
+            if product["name"] == name:
+                self.products.remove(product)
+                print("次の商品を削除しました")
+                print(f"name:{product['name']}\nstock:{product['stock']}")
+                return
+        print("商品が見つかりませんでした")
