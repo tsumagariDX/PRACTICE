@@ -3,7 +3,11 @@ class StockApp:
         self.products = []
     
     def add_product(self, name, stock):
-        product = {"name":name, "stock":stock}
+        existing_product = {"name":name, "stock":stock}
+        for product in self.products:
+            if product["name"] == name:
+                print("すでに登録されています")
+                continue
         self.products.append(product)
     
     def show_products(self):
@@ -39,3 +43,56 @@ class StockApp:
                 print(f"name:{product['name']}\nstock:{product['stock']}")
                 return
         print("商品が見つかりませんでした")
+        
+def ask_name():
+    while True:
+        name = input("商品名を入力してください").strip()
+        if name == "":
+            print("空白は無効です。商品名を入力してください")
+        else:
+            return name
+    
+def ask_int():
+    while True:
+        stock = input("数量を入力してください").strip()
+        try:
+            stock = int(stock)
+            if stock < 0:
+                print("0以上を入力してください")
+            else:
+                return stock
+        except ValueError:
+            print("数字を入力してください")
+    
+def main():
+    app = StockApp()
+    while True:
+        print("商品在庫管理アプリ")
+        print("1: 追加")
+        print("2: 一覧表示")
+        print("3: 検索")
+        print("4: 数量更新")
+        print("5: 商品削除")
+        print("0: 終了")
+        select = input("メニューから機能を選んでください").strip()
+        if select == "1":
+            name = ask_name()
+            stock = ask_int()
+            app.add_product(name, stock)
+        elif select == "2":
+            app.show_products()
+        elif select == "3":
+            name = ask_name()
+            app.find_product(name)
+        elif select == "4":
+            name = ask_name()
+            new_stock = ask_int()
+            app.update_stock(name, new_stock)
+        elif select == "5":
+            name = ask_name()
+            app.delete_product(name)
+        elif select == "0":
+            break
+        else:
+            print("1~5,0の数字を入力してください")
+        
